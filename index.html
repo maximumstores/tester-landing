@@ -26,10 +26,19 @@
     --white: #1a1713;
     --gold: #9a6f1a;
     --gold-light: #b8870f;
-    --gray: #666;
-    --border: rgba(154,111,26,0.22);
+    --gray: #444;
+    --border: rgba(154,111,26,0.28);
   }
   body.light::before { opacity: 0.015; }
+  body.light .step { background: rgba(0,0,0,0.04); border-color: rgba(154,111,26,0.2); }
+  body.light .step-desc { color: rgba(26,23,19,0.72); }
+  body.light .hero-sub { color: rgba(26,23,19,0.72); }
+  body.light .perk-desc { color: rgba(26,23,19,0.68); }
+  body.light .cta-note { color: #555; }
+  body.light .proof-num-label { color: rgba(26,23,19,0.52); }
+  body.light .faq-a { color: rgba(26,23,19,0.68); }
+  body.light .faq-q:hover { background: rgba(154,111,26,0.08); }
+  body.light .bottom-cta p { color: rgba(26,23,19,0.58); }
 
   html { scroll-behavior: smooth; }
 
