@@ -278,12 +278,12 @@ fbq('track', 'Lead');         /* fires on page load = conversion */
   </p>
 
   <!-- REPLACE href WITH YOUR BOT LINK -->
-  <a href="https://m.me/YOUR_PAGE?ref=tester_landing" class="cta-btn" target="_blank">
+  <a href="https://m.me/YOUR_PAGE?ref=tester_landing" class="cta-btn" id="bot-btn" target="_blank">
     Open Messenger
     <span class="arrow">→</span>
   </a>
 
-  <p class="note">Takes 60 seconds · No credit card needed</p>
+  <p class="note" id="countdown-note">Redirecting in <strong id="countdown">3</strong> seconds...</p>
 
   <div class="divider"></div>
 
@@ -308,6 +308,26 @@ fbq('track', 'Lead');         /* fires on page load = conversion */
 
 </body>
 <script>
+function startCountdown() {
+  const BOT_URL = 'https://m.me/YOUR_PAGE?ref=tester_landing'; /* ← REPLACE */
+  let seconds = 3;
+  const el = document.getElementById('countdown');
+  const note = document.getElementById('countdown-note');
+  const btn = document.getElementById('bot-btn');
+
+  const timer = setInterval(() => {
+    seconds--;
+    if (el) el.textContent = seconds;
+    if (seconds <= 0) {
+      clearInterval(timer);
+      if (note) note.innerHTML = 'Opening Messenger...';
+      window.location.href = BOT_URL;
+    }
+  }, 1000);
+}
+
+startCountdown();
+
 function toggleTheme() {
   const isLight = document.body.classList.toggle('light');
   document.getElementById('theme-label').textContent = isLight ? 'Light' : 'Dark';
