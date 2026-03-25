@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're In — Product Tester Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- ═══════════════════════════════════════════════
+     FACEBOOK PIXEL — REPLACE YOUR_PIXEL_ID
+     ═══════════════════════════════════════════════ -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'YOUR_PIXEL_ID'); /* ← REPLACE THIS */
+fbq('track', 'Lead');         /* fires on page load = conversion */
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=Lead&noscript=1"/>
+</noscript>
+<!-- ═══════════════════════════════════════════════ -->
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ed;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --green: #2d6a4f;
+    --border: rgba(201,168,76,0.25);
+  }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* noise */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* glow orb */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px 24px;
+    max-width: 540px;
+    width: 100%;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .checkmark {
+    width: 72px; height: 72px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 32px;
+    font-size: 32px;
+    animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both 0.2s;
+    background: rgba(201,168,76,0.06);
+  }
+
+  .label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 10vw, 80px);
+    line-height: 0.95;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  h1 span { color: var(--gold); }
+
+  p.sub {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(245,242,237,0.6);
+    line-height: 1.65;
+    margin-bottom: 48px;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 20px 52px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(201,168,76,0.45);
+  }
+
+  .cta-btn:hover::before { opacity: 1; }
+
+  .arrow { font-size: 18px; transition: transform 0.2s; }
+  .cta-btn:hover .arrow { transform: translateX(4px); }
+
+  .note {
+    margin-top: 20px;
+    font-size: 12px;
+    color: rgba(245,242,237,0.3);
+    letter-spacing: 0.04em;
+  }
+
+  .divider {
+    width: 48px; height: 1px;
+    background: var(--border);
+    margin: 48px auto;
+  }
+
+  .steps {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 120px;
+  }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: rgba(201,168,76,0.2);
+    line-height: 1;
+  }
+
+  .step-icon { font-size: 22px; }
+
+  .step-text {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(245,242,237,0.4);
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="checkmark">✓</div>
+
+  <p class="label">You're confirmed</p>
+
+  <h1>One step<br><span>left.</span></h1>
+
+  <p class="sub">
+    Tap the button below to connect with our team on Messenger.<br>
+    We'll match you with a product and walk you through the process.
+  </p>
+
+  <!-- REPLACE href WITH YOUR BOT LINK -->
+  <a href="https://m.me/YOUR_PAGE?ref=tester_landing" class="cta-btn" target="_blank">
+    Open Messenger
+    <span class="arrow">→</span>
+  </a>
+
+  <p class="note">Takes 60 seconds · No credit card needed</p>
+
+  <div class="divider"></div>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <span class="step-icon">💬</span>
+      <span class="step-text">Chat with our team</span>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <span class="step-icon">📦</span>
+      <span class="step-text">Get your product</span>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <span class="step-icon">💸</span>
+      <span class="step-text">Keep it + get paid</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
