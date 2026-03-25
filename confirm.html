@@ -40,6 +40,18 @@ fbq('track', 'Lead');         /* fires on page load = conversion */
     --border: rgba(201,168,76,0.25);
   }
 
+  body.light {
+    --black: #f0ece4;
+    --white: #1a1713;
+    --gold: #9a6f1a;
+    --gold-light: #b8870f;
+    --border: rgba(154,111,26,0.28);
+  }
+  body.light::before { opacity: 0.015; }
+  body.light .sub { color: rgba(26,23,19,0.6); }
+  body.light .note { color: rgba(26,23,19,0.3); }
+  body.light .step-text { color: rgba(26,23,19,0.4); }
+
   html, body {
     height: 100%;
   }
@@ -210,6 +222,31 @@ fbq('track', 'Lead');         /* fires on page load = conversion */
     line-height: 1.5;
   }
 
+  body { transition: background 0.35s, color 0.35s; }
+
+  .theme-toggle {
+    position: fixed;
+    top: 20px; right: 20px;
+    z-index: 100;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gold);
+    transition: all 0.25s;
+    backdrop-filter: blur(8px);
+  }
+  .theme-toggle:hover { background: rgba(201,168,76,0.2); }
+  .theme-toggle-icon { font-size: 16px; transition: transform 0.4s; }
+  body.light .theme-toggle-icon { transform: rotate(180deg); }
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -222,6 +259,11 @@ fbq('track', 'Lead');         /* fires on page load = conversion */
 </style>
 </head>
 <body>
+
+<button class="theme-toggle" onclick="toggleTheme()" title="Switch theme">
+  <span class="theme-toggle-icon">🌙</span>
+  <span id="theme-label">Dark</span>
+</button>
 
 <div class="wrap">
   <div class="checkmark">✓</div>
@@ -264,5 +306,20 @@ fbq('track', 'Lead');         /* fires on page load = conversion */
   </div>
 </div>
 
+</body>
+<script>
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  document.getElementById('theme-label').textContent = isLight ? 'Light' : 'Dark';
+  document.querySelector('.theme-toggle-icon').textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
+if (localStorage.getItem('theme') === 'light') {
+  document.body.classList.add('light');
+  document.getElementById('theme-label').textContent = 'Light';
+  document.querySelector('.theme-toggle-icon').textContent = '☀️';
+}
+</script>
 </body>
 </html>
